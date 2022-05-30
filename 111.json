@@ -1,0 +1,886 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Transcrypt API",
+    "description": "Transcrypt API Information.\n",
+    "termsOfService": "https://transcrypt.eu/en/terms",
+    "contact": {
+      "url": "https://transcrypt.eu",
+      "email": "support@transcrypt.eu"
+    },
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://transcrypt.eu/trade-api"
+    }
+  ],
+  "tags": [
+    {
+      "name": "account",
+      "description": "Login and get information"
+    },
+    {
+      "name": "trade",
+      "description": "Create or cancel order"
+    },
+    {
+      "name": "history",
+      "description": "Get orders"
+    }
+  ],
+  "paths": {
+    "/api/login": {
+      "post": {
+        "tags": [
+          "account"
+        ],
+        "summary": "Login user into the system",
+        "operationId": "login",
+        "parameters": [
+          {
+            "name": "login",
+            "in": "query",
+            "description": "The email for login",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "password",
+            "in": "query",
+            "description": "The password for login in clear text",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_200"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/user": {
+      "get": {
+        "tags": [
+          "account"
+        ],
+        "summary": "Get user info",
+        "description": "Get user info",
+        "operationId": "getUser",
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_200_1"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "TranscryptToken": []
+          }
+        ]
+      }
+    },
+    "/api/wallets": {
+      "get": {
+        "tags": [
+          "account"
+        ],
+        "summary": "Get wallets info",
+        "description": "Get wallets info",
+        "operationId": "getWallets",
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_200_2"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "TranscryptToken": []
+          }
+        ]
+      }
+    },
+    "/api/market": {
+      "post": {
+        "tags": [
+          "trade"
+        ],
+        "summary": "Create market order",
+        "operationId": "createMarket",
+        "parameters": [
+          {
+            "name": "symbol",
+            "in": "query",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "buy",
+            "in": "query",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "buy",
+                "sell"
+              ]
+            }
+          },
+          {
+            "name": "amount",
+            "in": "query",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_200_3"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "TranscryptToken": []
+          }
+        ]
+      }
+    },
+    "/api/limit": {
+      "post": {
+        "tags": [
+          "trade"
+        ],
+        "summary": "Create limit order",
+        "operationId": "createLimit",
+        "parameters": [
+          {
+            "name": "symbol",
+            "in": "query",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "side",
+            "in": "query",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "buy",
+                "sell"
+              ]
+            }
+          },
+          {
+            "name": "amount",
+            "in": "query",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          {
+            "name": "rate",
+            "in": "query",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_200_4"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "TranscryptToken": []
+          }
+        ]
+      }
+    },
+    "/api/market/{orderId}": {
+      "get": {
+        "tags": [
+          "history"
+        ],
+        "summary": "Get market order by orderId",
+        "description": "Get market order by orderId",
+        "operationId": "getMarket",
+        "parameters": [
+          {
+            "name": "orderId",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_200_3"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "TranscryptToken": []
+          }
+        ]
+      }
+    },
+    "/api/limit/{orderId}": {
+      "get": {
+        "tags": [
+          "history"
+        ],
+        "summary": "Get limit order by orderId",
+        "description": "Get limit order by orderId",
+        "operationId": "getLimit",
+        "parameters": [
+          {
+            "name": "orderId",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_200_4"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "TranscryptToken": []
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "trade"
+        ],
+        "summary": "Cancel limit order by orderId",
+        "description": "Cancel limit order by orderId",
+        "operationId": "cancelLimit",
+        "parameters": [
+          {
+            "name": "orderId",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_200_5"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "TranscryptToken": []
+          }
+        ]
+      }
+    },
+    "/api/markets": {
+      "get": {
+        "tags": [
+          "history"
+        ],
+        "summary": "Get all market orders",
+        "description": "Get all market orders",
+        "operationId": "getMarkets",
+        "parameters": [
+          {
+            "name": "accountId",
+            "in": "query",
+            "description": "Your account ID",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "from",
+            "in": "query",
+            "description": "start time",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "number",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "to",
+            "in": "query",
+            "description": "end time",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "number",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_200_6"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "TranscryptToken": []
+          }
+        ]
+      }
+    },
+    "/api/limits": {
+      "get": {
+        "tags": [
+          "history"
+        ],
+        "summary": "Get all limit orders",
+        "description": "Get all limit orders",
+        "operationId": "getLimits",
+        "parameters": [
+          {
+            "name": "accountId",
+            "in": "query",
+            "description": "Your account ID",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "from",
+            "in": "query",
+            "description": "start time",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "number",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "to",
+            "in": "query",
+            "description": "end time",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "number",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_200_7"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "TranscryptToken": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "User": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string",
+            "example": "support@transcrypt.eu"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "active",
+              "pending",
+              "blocked"
+            ]
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "country": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "string"
+          },
+          "regTime": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "lastTime": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "Wallet": {
+        "type": "object",
+        "properties": {
+          "currency": {
+            "type": "string",
+            "example": "BTC"
+          },
+          "balance": {
+            "type": "number",
+            "format": "double",
+            "example": 1.5
+          },
+          "hold": {
+            "type": "number",
+            "format": "double",
+            "example": 0.5
+          }
+        }
+      },
+      "Market": {
+        "type": "object",
+        "properties": {
+          "orderId": {
+            "type": "string"
+          },
+          "userId": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "example": "filled",
+            "enum": [
+              "filled",
+              "rejected"
+            ]
+          },
+          "symbol": {
+            "type": "string",
+            "example": "BTC/USD.E"
+          },
+          "amount": {
+            "type": "number",
+            "format": "double",
+            "example": 0.01
+          },
+          "rate": {
+            "type": "number",
+            "format": "double",
+            "example": 4200
+          },
+          "side": {
+            "type": "string",
+            "enum": [
+              "buy",
+              "sell"
+            ]
+          },
+          "created": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "executed": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "commission": {
+            "type": "number",
+            "format": "double",
+            "example": 0.000025
+          },
+          "commissionAsset": {
+            "type": "string",
+            "example": "BTC"
+          }
+        }
+      },
+      "Limit": {
+        "type": "object",
+        "properties": {
+          "orderId": {
+            "type": "string"
+          },
+          "userId": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "example": "filled",
+            "enum": [
+              "processing",
+              "filled",
+              "rejected",
+              "canceled",
+              "partial"
+            ]
+          },
+          "symbol": {
+            "type": "string",
+            "example": "BTC/USD.E"
+          },
+          "amount": {
+            "type": "number",
+            "format": "double",
+            "example": 0.01
+          },
+          "rate": {
+            "type": "number",
+            "format": "double",
+            "example": 4200
+          },
+          "hold": {
+            "type": "number",
+            "format": "double",
+            "example": 0.01
+          },
+          "holdCurrency": {
+            "type": "string",
+            "example": "BTC"
+          },
+          "side": {
+            "type": "string",
+            "enum": [
+              "buy",
+              "sell"
+            ]
+          },
+          "created": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "executed": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "commission": {
+            "type": "number",
+            "format": "double",
+            "example": 0.000025
+          },
+          "commissionAsset": {
+            "type": "string",
+            "example": "BTC"
+          }
+        }
+      },
+      "inline_response_200": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "data": {
+            "$ref": "#/components/schemas/inline_response_200_data"
+          },
+          "code": {
+            "type": "string",
+            "default": ""
+          },
+          "problem": {
+            "type": "string",
+            "default": ""
+          }
+        }
+      },
+      "inline_response_200_1": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "data": {
+            "$ref": "#/components/schemas/User"
+          },
+          "code": {
+            "type": "string",
+            "default": ""
+          },
+          "problem": {
+            "type": "string",
+            "default": ""
+          }
+        }
+      },
+      "inline_response_200_2": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Wallet"
+            }
+          },
+          "code": {
+            "type": "string",
+            "default": ""
+          },
+          "problem": {
+            "type": "string",
+            "default": ""
+          }
+        }
+      },
+      "inline_response_200_3": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "data": {
+            "$ref": "#/components/schemas/Market"
+          },
+          "code": {
+            "type": "string",
+            "default": ""
+          },
+          "problem": {
+            "type": "string",
+            "default": ""
+          }
+        }
+      },
+      "inline_response_200_4": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "data": {
+            "$ref": "#/components/schemas/Limit"
+          },
+          "code": {
+            "type": "string",
+            "default": ""
+          },
+          "problem": {
+            "type": "string",
+            "default": ""
+          }
+        }
+      },
+      "inline_response_200_5": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "code": {
+            "type": "string",
+            "default": ""
+          },
+          "problem": {
+            "type": "string",
+            "default": ""
+          }
+        }
+      },
+      "inline_response_200_6": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Market"
+            }
+          },
+          "code": {
+            "type": "string",
+            "default": ""
+          },
+          "problem": {
+            "type": "string",
+            "default": ""
+          }
+        }
+      },
+      "inline_response_200_7": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Limit"
+            }
+          },
+          "code": {
+            "type": "string",
+            "default": ""
+          },
+          "problem": {
+            "type": "string",
+            "default": ""
+          }
+        }
+      },
+      "inline_response_200_data": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "description": "tcp-auth-token"
+          },
+          "user": {
+            "$ref": "#/components/schemas/User"
+          },
+          "wallets": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Wallet"
+            }
+          }
+        },
+        "example": null
+      }
+    },
+    "securitySchemes": {
+      "TranscryptToken": {
+        "type": "apiKey",
+        "name": "tcp-auth-token",
+        "in": "header"
+      }
+    }
+  }
+}
